@@ -1,8 +1,8 @@
+export type AgentStatus = 'PENDING' | 'GENERATING' | 'COMPLETED' | 'FAILED';
+
 export interface AgentCreate {
   name: string;
 }
-
-export type AgentStatus = 'PENDING' | 'GENERATING' | 'COMPLETED' | 'FAILED';
 
 export interface AgentRead {
   id: number;
