@@ -1,5 +1,5 @@
 'use client';
-import Link from 'next/link';
+import Sidebar from './Sidebar';
 import { useState } from 'react';
 
 export default function MobileSidebar() {
@@ -28,39 +28,19 @@ export default function MobileSidebar() {
         <div
           className={`fixed inset-0 z-40 bg-white/30 backdrop-blur-md flex transition-all duration-300 ${closing ? 'animate-fade-out' : 'animate-fade-in'}`}
         >
-          <nav
-            className={`w-64 bg-white h-full shadow-lg flex flex-col justify-between ${closing ? 'animate-slide-out-nav' : 'animate-slide-in-nav'}`}
+          <div
+            className={`w-64 h-full ${closing ? 'animate-slide-out-nav' : 'animate-slide-in-nav'}`}
           >
-            <div>
-              <div className="flex items-center gap-2 p-6 mb-8">
-                <span className="font-bold text-xl tracking-wide">AI円卓会議</span>
-              </div>
-              <Link href="/debates/create" className="block px-6 py-2 mb-4">
-                <button className="w-full bg-blue-600 text-white py-2 rounded font-semibold">
-                  + 新規ディベート作成
-                </button>
-              </Link>
-              <nav className="space-y-2 px-6">
-                <Link
-                  href="/debates"
-                  className="block px-3 py-2 rounded hover:bg-blue-50 font-medium"
-                >
-                  ディベート一覧
-                </Link>
-                <Link
-                  href="/agents"
-                  className="block px-3 py-2 rounded hover:bg-blue-50 font-medium"
-                >
-                  エージェント管理
-                </Link>
-              </nav>
-            </div>
-            <div className="flex items-center gap-2 p-6 mt-8">
-              <span className="text-sm text-gray-600">ユーザー名</span>
-              <button className="text-xs text-gray-500 hover:underline">設定</button>
-              <button className="text-xs text-gray-500 hover:underline">ログアウト</button>
-            </div>
-          </nav>
+            <Sidebar
+              onClose={() => {
+                setClosing(true);
+                setTimeout(() => {
+                  setOpen(false);
+                  setClosing(false);
+                }, 300);
+              }}
+            />
+          </div>
           {/* 背景クリックで閉じる */}
           <div
             className="flex-1"
