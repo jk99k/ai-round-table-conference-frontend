@@ -29,6 +29,8 @@ export interface DebateOut {
   id: number;
   topic: string;
   status: DebateStatus;
+  next_agent_id: number | null;
+  next_agent_name: string | null;
   messages: MessageOut[];
   participants: ParticipantOut[];
   created_at: string;

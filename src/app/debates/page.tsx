@@ -40,6 +40,7 @@ export default function DebateListPage() {
               <div>
                 <span className="font-semibold">ステータス:</span> {debate.status}
               </div>
+              {debate.next_agent_name}
               <Link href={`/debates/${debate.id}`} className="text-blue-600 underline">
                 詳細を見る
               </Link>
