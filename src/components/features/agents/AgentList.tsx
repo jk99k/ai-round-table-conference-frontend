@@ -2,7 +2,7 @@
 import type { AgentRead } from '../../../types/agent';
 import Image from 'next/image';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 type Props = {
   agents: AgentRead[];
@@ -23,11 +23,7 @@ export default function AgentList({ agents, loading }: Props) {
           <div className="flex items-center gap-2">
             {agent.status === 'COMPLETED' && agent.avatar_url && (
               <Image
-                src={
-                  agent.avatar_url.startsWith('/')
-                    ? `${API_BASE_URL}${agent.avatar_url}`
-                    : agent.avatar_url
-                }
+                src={`${API_BASE_URL}/${agent.avatar_url}`}
                 alt={agent.name}
                 width={40}
                 height={40}

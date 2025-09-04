@@ -1,6 +1,5 @@
 import type { User } from '../types/user';
 import type { Token } from '../types/token';
-import type { AgentCreate, AgentRead } from '../types/agent';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
