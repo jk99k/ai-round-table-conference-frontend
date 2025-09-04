@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createAgent } from '../../../lib/agent-api';
-import type { AgentCreate, AgentRead } from '../../../types/agent';
+import type { AgentCreate } from '../../../types/agent';
 
 export default function CreateAgentForm() {
   const [form, setForm] = useState<AgentCreate>({ name: '' });
