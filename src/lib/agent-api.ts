@@ -1,3 +1,12 @@
+export async function deleteAgents(ids: number[]): Promise<number> {
+  const res = await fetchWithAuth(`${API_BASE_URL}/api/agents`, {
+    method: 'DELETE',
+    body: JSON.stringify({ ids }),
+  });
+  if (!res.ok) throw new Error('エージェント削除に失敗しました');
+  const result = await res.json();
+  return result.deleted;
+}
 import type { AgentCreate, AgentRead } from '../types/agent';
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 

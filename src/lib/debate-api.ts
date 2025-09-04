@@ -4,6 +4,15 @@ import { fetchWithAuth } from './api-client';
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export const debateApi = {
+  async deleteDebates(ids: number[]): Promise<number> {
+    const res = await fetchWithAuth(`${API_BASE_URL}/api/debates`, {
+      method: 'DELETE',
+      body: JSON.stringify({ ids }),
+    });
+    if (!res.ok) throw new Error('ディベート削除に失敗しました');
+    const result = await res.json();
+    return result.deleted;
+  },
   async createDebate(data: DebateCreate): Promise<DebateOut> {
     const res = await fetchWithAuth(`${API_BASE_URL}/api/debates`, {
       method: 'POST',

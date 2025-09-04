@@ -9,7 +9,23 @@ import AgentList from '../../components/features/agents/AgentList';
 export default function AgentsPage() {
   const [agents, setAgents] = useState<AgentRead[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const [deleting, setDeleting] = useState(false);
   const pollingRef = useRef<NodeJS.Timeout | null>(null);
+  const handleDelete = async () => {
+    if (selectedIds.length === 0) return;
+    setDeleting(true);
+    try {
+      const { deleteAgents } = await import('../../lib/agent-api');
+      await deleteAgents(selectedIds);
+      await fetchAgents();
+      setSelectedIds([]);
+    } catch {
+      // エラー処理は省略
+    } finally {
+      setDeleting(false);
+    }
+  };
 
   const fetchAgents = async () => {
     setLoading(true);
@@ -58,7 +74,14 @@ export default function AgentsPage() {
       <h1 className="text-2xl font-bold mb-6">AIエージェント管理</h1>
       <CreateAgentForm />
       <div className="mt-8">
-        <AgentList agents={agents} loading={loading} />
+        <AgentList
+          agents={agents}
+          loading={loading}
+          selectedIds={selectedIds}
+          setSelectedIds={setSelectedIds}
+          onDelete={handleDelete}
+          deleting={deleting}
+        />
       </div>
     </div>
   );
