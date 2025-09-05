@@ -60,7 +60,7 @@ export default function DebateDetailPage() {
       </div>
       <div className="mb-4">
         <span className="font-semibold">参加エージェント:</span>{' '}
-        {debate.participants?.map((p) => p.name).join(', ')}
+        {debate.agents?.map((p) => p.name).join(', ')}
       </div>
       {debate.messages?.length > 0 ? (
         <div className="mb-4">

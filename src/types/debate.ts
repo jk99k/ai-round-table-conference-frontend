@@ -16,9 +16,10 @@ export interface MessageOut {
   agent_id: number;
   content: string;
   created_at: string;
+  agent: AgentOut;
 }
 
-export interface ParticipantOut {
+export interface AgentOut {
   id: number;
   agent_id: number;
   name: string;
@@ -32,6 +33,6 @@ export interface DebateOut {
   next_agent_id: number | null;
   next_agent_name: string | null;
   messages: MessageOut[];
-  participants: ParticipantOut[];
+  agents: AgentOut[];
   created_at: string;
 }
