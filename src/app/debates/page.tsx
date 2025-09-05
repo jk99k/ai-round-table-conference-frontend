@@ -21,7 +21,7 @@ export default function DebateListPage() {
     setIsMobile(window.innerWidth < 768);
     const handleResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener('resize', handleResize);
-    (async () => {
+    const fetchDebates = async () => {
       try {
         const data = await debateApi.getDebates();
         setDebates(data);
@@ -30,8 +30,13 @@ export default function DebateListPage() {
       } finally {
         setLoading(false);
       }
-    })();
-    return () => window.removeEventListener('resize', handleResize);
+    };
+    fetchDebates();
+    const interval = setInterval(fetchDebates, 5000);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      clearInterval(interval);
+    };
   }, []);
 
   // const handleSelect = (id: number) => {
@@ -237,7 +242,14 @@ export default function DebateListPage() {
                     />
                   )}
                   <div className="flex-1">
-                    <div className="font-semibold">{debate.topic}</div>
+                    <div className="font-semibold flex items-center gap-2">
+                      {debate.topic}
+                      {debate.status === 'IN_PROGRESS' && debate.next_agent_name && (
+                        <span className="ml-2 text-xs text-blue-500 animate-pulse">
+                          {debate.next_agent_name}が入力中...
+                        </span>
+                      )}
+                    </div>
                     <div className="text-xs text-gray-400">
                       {new Date(debate.created_at).toLocaleString()}
                     </div>

@@ -1,10 +1,34 @@
 import type { DebateOut } from '../../../types/debate';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { debateApi } from '../../../lib/debate-api';
 
 export default function DMDetail({ debate }: { debate: DebateOut | null }) {
+  const messagesEndRef = useRef<HTMLDivElement>(null);
   const [debateState, setDebateState] = useState<DebateOut | null>(debate);
+  // next_agent_name表示時は自動スクロール
+  useEffect(() => {
+    if (
+      debateState?.status === 'IN_PROGRESS' &&
+      debateState.next_agent_name &&
+      messagesEndRef.current
+    ) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [debateState?.next_agent_name, debateState?.status]);
+  // 3秒ごとにフェッチ
+  useEffect(() => {
+    if (!debate) return;
+    setDebateState(debate);
+    const fetchDetail = async () => {
+      try {
+        const data = await debateApi.getDebateById(debate.id);
+        setDebateState(data);
+      } catch {}
+    };
+    const interval = setInterval(fetchDetail, 3000);
+    return () => clearInterval(interval);
+  }, [debate]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -29,7 +53,14 @@ export default function DMDetail({ debate }: { debate: DebateOut | null }) {
   return (
     <div className="flex flex-col h-full">
       <div className="flex items-center gap-3 mb-4">
-        <span className="text-lg font-bold">{debateState.topic}</span>
+        <span className="text-lg font-bold flex items-center gap-2">
+          {debateState.topic}
+          {debateState.status === 'IN_PROGRESS' && debateState.next_agent_name && (
+            <span className="ml-2 text-xs text-blue-500 animate-pulse">
+              {debateState.next_agent_name}が入力中...
+            </span>
+          )}
+        </span>
         <span className="text-xs px-2 py-1 rounded bg-gray-100 text-gray-600">
           {debateState.status}
         </span>
@@ -47,67 +78,82 @@ export default function DMDetail({ debate }: { debate: DebateOut | null }) {
         {debateState.messages.length === 0 ? (
           <div className="text-gray-400 text-center mt-10">メッセージはありません</div>
         ) : (
-          <ul className="flex flex-col gap-4">
-            {debateState.messages.map((msg) => {
-              const agent = debateState.agents.find((p) => p.agent_id === msg.agent_id);
-              const isLeft = msg.agent_id === debateState.agents[0]?.agent_id;
-              return (
-                <li
-                  key={msg.id}
-                  className={`flex items-end ${isLeft ? 'justify-start' : 'justify-end'}`}
-                >
-                  {isLeft && agent?.avatar_url && (
-                    <div className="flex flex-col items-center mr-2">
-                      <Image
-                        quality={100}
-                        src={
-                          msg.agent.avatar_url?.startsWith('http')
-                            ? msg.agent.avatar_url
-                            : `${process.env.NEXT_PUBLIC_API_BASE_URL}/${msg.agent.avatar_url}`
-                        }
-                        alt={agent.name}
-                        width={40}
-                        height={40}
-                        className="rounded-full object-cover border shadow"
-                        style={{ width: 40, height: 40 }}
-                      />
-                      <span className="text-xs text-gray-500 mt-1 max-w-[60px] truncate">
-                        {msg.agent.name}
-                      </span>
-                    </div>
-                  )}
-                  <div
-                    className={`max-w-[70%] px-4 py-2 rounded-lg shadow ${isLeft ? 'bg-white text-gray-800' : 'bg-blue-600 text-white'} whitespace-pre-wrap`}
+          <>
+            <ul className="flex flex-col gap-4">
+              {debateState.messages.map((msg) => {
+                const agent = debateState.agents.find((p) => p.agent_id === msg.agent_id);
+                const isLeft = msg.agent_id === debateState.agents[0]?.agent_id;
+                return (
+                  <li
+                    key={msg.id}
+                    className={`flex items-end ${isLeft ? 'justify-start' : 'justify-end'}`}
                   >
-                    <div className="text-sm">{msg.content}</div>
-                    <div className="text-xs text-gray-400 mt-1 text-right">
-                      {new Date(msg.created_at).toLocaleTimeString()}
+                    {isLeft && agent?.avatar_url && (
+                      <div className="flex flex-col items-center mr-2">
+                        <Image
+                          quality={100}
+                          src={
+                            msg.agent.avatar_url?.startsWith('http')
+                              ? msg.agent.avatar_url
+                              : `${process.env.NEXT_PUBLIC_API_BASE_URL}/${msg.agent.avatar_url}`
+                          }
+                          alt={agent.name}
+                          width={40}
+                          height={40}
+                          className="rounded-full object-cover border shadow"
+                          style={{ width: 40, height: 40 }}
+                        />
+                        <span className="text-xs text-gray-500 mt-1 max-w-[60px] truncate">
+                          {msg.agent.name}
+                        </span>
+                      </div>
+                    )}
+                    <div
+                      className={`max-w-[70%] px-4 py-2 rounded-lg shadow ${isLeft ? 'bg-white text-gray-800' : 'bg-blue-600 text-white'} whitespace-pre-wrap`}
+                    >
+                      <div className="text-sm">{msg.content}</div>
+                      <div className="text-xs text-gray-400 mt-1 text-right">
+                        {new Date(msg.created_at).toLocaleTimeString()}
+                      </div>
                     </div>
-                  </div>
-                  {!isLeft && agent?.avatar_url && (
-                    <div className="flex flex-col items-center ml-2">
-                      <Image
-                        quality={100}
-                        src={
-                          msg.agent.avatar_url?.startsWith('http')
-                            ? msg.agent.avatar_url
-                            : `${process.env.NEXT_PUBLIC_API_BASE_URL}/${msg.agent.avatar_url}`
-                        }
-                        alt={agent.name}
-                        width={40}
-                        height={40}
-                        className="rounded-full object-cover border shadow"
-                        style={{ width: 40, height: 40 }}
-                      />
-                      <span className="text-xs text-gray-500 mt-1 max-w-[60px] truncate">
-                        {agent.name}
-                      </span>
-                    </div>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
+                    {!isLeft && agent?.avatar_url && (
+                      <div className="flex flex-col items-center ml-2">
+                        <Image
+                          quality={100}
+                          src={
+                            msg.agent.avatar_url?.startsWith('http')
+                              ? msg.agent.avatar_url
+                              : `${process.env.NEXT_PUBLIC_API_BASE_URL}/${msg.agent.avatar_url}`
+                          }
+                          alt={agent.name}
+                          width={40}
+                          height={40}
+                          className="rounded-full object-cover border shadow"
+                          style={{ width: 40, height: 40 }}
+                        />
+                        <span className="text-xs text-gray-500 mt-1 max-w-[60px] truncate">
+                          {agent.name}
+                        </span>
+                      </div>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+            {debateState.status === 'IN_PROGRESS' && debateState.next_agent_name && (
+              <div
+                ref={messagesEndRef}
+                className="flex items-center justify-start gap-2 mt-2 animate-pulse"
+              >
+                <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
+                  <span className="text-blue-500 font-bold text-lg">...</span>
+                </div>
+                <span className="text-xs text-blue-500 font-bold">
+                  {debateState.next_agent_name}が入力中...
+                </span>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
