@@ -189,6 +189,7 @@ export default function AgentsPage() {
               <h2 className="text-xl font-bold mb-4">{modalAgent.name}</h2>
               {modalAgent.avatar_url && (
                 <Image
+                  quality={100}
                   src={
                     modalAgent.avatar_url.startsWith('http')
                       ? modalAgent.avatar_url
@@ -283,6 +284,7 @@ export default function AgentsPage() {
             <h2 className="text-xl font-bold mb-4">{selectedAgent.name}</h2>
             {selectedAgent.avatar_url && (
               <Image
+                quality={100}
                 src={
                   selectedAgent.avatar_url.startsWith('http')
                     ? selectedAgent.avatar_url

@@ -59,6 +59,7 @@ export default function DMDetail({ debate }: { debate: DebateOut | null }) {
                   {isLeft && agent?.avatar_url && (
                     <div className="flex flex-col items-center mr-2">
                       <Image
+                        quality={100}
                         src={
                           msg.agent.avatar_url?.startsWith('http')
                             ? msg.agent.avatar_url
@@ -86,6 +87,7 @@ export default function DMDetail({ debate }: { debate: DebateOut | null }) {
                   {!isLeft && agent?.avatar_url && (
                     <div className="flex flex-col items-center ml-2">
                       <Image
+                        quality={100}
                         src={
                           msg.agent.avatar_url?.startsWith('http')
                             ? msg.agent.avatar_url
