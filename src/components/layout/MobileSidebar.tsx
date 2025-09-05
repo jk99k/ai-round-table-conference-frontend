@@ -1,10 +1,25 @@
 'use client';
 import Sidebar from './Sidebar';
+import { useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 
 export default function MobileSidebar() {
   const [open, setOpen] = useState(false);
   const [closing, setClosing] = useState(false);
+  const pathname = usePathname();
+
+  // ページ遷移時にサイドバーを閉じる
+  useEffect(() => {
+    if (open) {
+      setClosing(true);
+      setTimeout(() => {
+        setOpen(false);
+        setClosing(false);
+      }, 300);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
 
   return (
     <>
