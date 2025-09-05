@@ -286,7 +286,7 @@ export default function AgentsPage() {
       {/* 右カラム: 詳細 or 新規作成（モバイル時はフォーム非表示） */}
       <div className="md:w-2/3 w-full bg-white rounded shadow p-6 md:h-[100vh] md:overflow-y-auto">
         {selectedAgent ? (
-          <div>
+          <div className="w-full flex flex-col items-center">
             <h2 className="text-xl font-bold mb-4">{selectedAgent.name}</h2>
             {selectedAgent.avatar_url && (
               <Image
