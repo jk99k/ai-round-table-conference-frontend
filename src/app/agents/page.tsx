@@ -103,10 +103,16 @@ export default function AgentsPage() {
                   if (window.innerWidth >= 768) setSelectedId(agent.id);
                 }}
                 onClick={() => {
-                  if (window.innerWidth < 768) {
+                  if (selectMode) {
+                    setSelectedIds((ids) =>
+                      ids.includes(agent.id)
+                        ? ids.filter((id) => id !== agent.id)
+                        : [...ids, agent.id]
+                    );
+                  } else if (window.innerWidth < 768) {
                     setModalAgent(agent);
                     setShowDetailModal(true);
-                  } else if (!selectMode) {
+                  } else {
                     setSelectedId(agent.id);
                   }
                 }}
