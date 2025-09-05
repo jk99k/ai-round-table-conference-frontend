@@ -53,7 +53,7 @@ export default function AgentsPage() {
   const selectedAgent = agents.find((a) => a.id === selectedId) || null;
 
   return (
-    <div className="flex flex-col md:flex-row gap-6 w-full max-w-5xl mx-auto py-8 md:h-[100vh]">
+    <div className="flex flex-col md:flex-row gap-6 w-full max-w-5xl mx-auto md:h-[100vh]">
       {/* 左カラム: エージェントリスト＋複数選択削除＋選択モード */}
       <div className="md:w-1/3 w-full bg-white rounded shadow p-4 relative md:h-[100vh] md:overflow-y-auto">
         <h2 className="text-lg font-bold mb-4">エージェント一覧</h2>

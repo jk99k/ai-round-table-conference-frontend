@@ -29,25 +29,25 @@ export default function DebateListPage() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const handleSelect = (id: number) => {
-    setSelectedIds((ids) => (ids.includes(id) ? ids.filter((i) => i !== id) : [...ids, id]));
-  };
+  // const handleSelect = (id: number) => {
+  //   setSelectedIds((ids) => (ids.includes(id) ? ids.filter((i) => i !== id) : [...ids, id]));
+  // };
 
-  const handleDelete = async () => {
-    if (selectedIds.length === 0) return;
-    setDeleting(true);
-    try {
-      await debateApi.deleteDebates(selectedIds);
-      // 削除後に再取得
-      const data = await debateApi.getDebates();
-      setDebates(data);
-      setSelectedIds([]);
-    } catch {
-      setError('削除に失敗しました');
-    } finally {
-      setDeleting(false);
-    }
-  };
+  // const handleDelete = async () => {
+  //   if (selectedIds.length === 0) return;
+  //   setDeleting(true);
+  //   try {
+  //     await debateApi.deleteDebates(selectedIds);
+  //     // 削除後に再取得
+  //     const data = await debateApi.getDebates();
+  //     setDebates(data);
+  //     setSelectedIds([]);
+  //   } catch {
+  //     setError('削除に失敗しました');
+  //   } finally {
+  //     setDeleting(false);
+  //   }
+  // };
 
   return (
     // モバイル: 画面遷移風
@@ -82,7 +82,7 @@ export default function DebateListPage() {
       </div>
     ) : (
       // デスクトップ: 2カラム
-      <div className="flex flex-col md:flex-row gap-6 w-full max-w-5xl mx-auto py-8 md:h-[100vh]">
+      <div className="flex flex-col md:flex-row gap-6 w-full max-w-5xl mx-auto md:h-[100vh]">
         {/* 左カラム: ディベート一覧 */}
         <div className="md:w-1/3 w-full bg-white rounded shadow p-4 relative md:h-[100vh] md:overflow-y-auto">
           <h2 className="text-lg font-bold mb-4">ディベート一覧</h2>

@@ -71,7 +71,7 @@ export default function RootLayout({
               <span className="font-bold text-lg">AI円卓会議</span>
             </div>
             {/* メインコンテンツ */}
-            <main className="flex-1 ml-0 md:ml-64 p-6">{children}</main>
+            <main className="flex-1 ml-0 md:ml-64">{children}</main>
           </div>
         </body>
       </AuthProvider>
