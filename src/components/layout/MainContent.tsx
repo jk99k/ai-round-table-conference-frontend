@@ -12,5 +12,15 @@ export default function MainContent({ children }: MainContentProps) {
   // 認証ページではマージンなし、それ以外ではサイドバー分のマージン
   const marginClass = isAuthPage ? 'ml-0' : 'ml-0 md:ml-64';
 
-  return <main className={`flex-1 ${marginClass}`}>{children}</main>;
+  return (
+    <main
+      className={`flex-1 ${marginClass}`}
+      style={{
+        background: '#e6e6e6',
+        minHeight: '100vh',
+      }}
+    >
+      {children}
+    </main>
+  );
 }

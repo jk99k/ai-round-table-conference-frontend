@@ -20,9 +20,15 @@ export default function ConditionalSidebar() {
         <Sidebar />
       </aside>
       {/* モバイル用サイドバー（ハンバーガーメニュー＋ドロワー） */}
-      <div className="md:hidden fixed top-0 left-0 w-full bg-white border-b shadow z-30 flex items-center justify-between px-4 py-2">
+      <div
+        className="md:hidden fixed top-0 left-0 w-full z-30 flex items-center justify-between px-4 py-3"
+        style={{
+          background: '#e6e6e6',
+          boxShadow: '0 4px 8px #d1d9e6, 0 -4px 8px #ffffff',
+        }}
+      >
         <MobileSidebar />
-        <span className="font-bold text-lg">AI円卓会議</span>
+        <span className="font-bold text-lg text-gray-800">AI円卓会議</span>
       </div>
     </>
   );

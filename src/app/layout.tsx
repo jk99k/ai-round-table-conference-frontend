@@ -29,7 +29,7 @@ export default function RootLayout({
     <html lang="ja">
       <AuthProvider>
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50 min-h-screen`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-200 min-h-screen`}
         >
           <div className="flex min-h-screen">
             <ConditionalSidebar />
