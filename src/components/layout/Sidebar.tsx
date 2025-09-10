@@ -48,7 +48,7 @@ export default function Sidebar() {
             + 新規ディベート作成
           </button>
         </Link>
-        <nav className="space-y-3 px-6">
+        <nav className="space-y-3 px-4">
           <Link href="/debates" className="block">
             <div
               className="px-4 py-3 font-medium text-gray-700"
