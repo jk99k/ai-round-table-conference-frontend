@@ -1,25 +1,8 @@
 import type { User } from '../types/user';
 import type { Token } from '../types/token';
+import { getAccessToken, getRefreshToken, setTokens, clearTokens } from './cookie-utils';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
-
-function getAccessToken() {
-  return localStorage.getItem('accessToken');
-}
-
-function getRefreshToken() {
-  return localStorage.getItem('refreshToken');
-}
-
-function setTokens(token: Token) {
-  localStorage.setItem('accessToken', token.access);
-  localStorage.setItem('refreshToken', token.refresh);
-}
-
-function clearTokens() {
-  localStorage.removeItem('accessToken');
-  localStorage.removeItem('refreshToken');
-}
 
 export async function fetchWithAuth(
   input: RequestInfo,

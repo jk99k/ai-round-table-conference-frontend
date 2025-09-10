@@ -1,6 +1,7 @@
 'use client';
 import { createContext, useContext, useState, useEffect } from 'react';
 import { apiClient } from '../lib/api-client';
+import { getAccessToken, clearTokens } from '../lib/cookie-utils';
 import type { User } from '../types/user';
 import type { Token } from '../types/token';
 
@@ -20,7 +21,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem('accessToken');
+    const token = getAccessToken();
     setAccessToken(token);
     setIsLoading(false);
     // ユーザー情報取得（必要ならAPIで取得）
@@ -35,8 +36,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const logout = () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
+    clearTokens();
     setUser(null);
     setAccessToken(null);
     window.location.href = '/login';
