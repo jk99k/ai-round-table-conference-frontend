@@ -46,15 +46,7 @@ export default function MobileSidebar() {
           <div
             className={`w-64 h-full ${closing ? 'animate-slide-out-nav' : 'animate-slide-in-nav'}`}
           >
-            <Sidebar
-              onClose={() => {
-                setClosing(true);
-                setTimeout(() => {
-                  setOpen(false);
-                  setClosing(false);
-                }, 300);
-              }}
-            />
+            <Sidebar />
           </div>
           {/* 背景クリックで閉じる */}
           <div

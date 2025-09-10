@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { AuthProvider } from '@/context/AuthContext';
-import Link from 'next/link';
 import MobileSidebar from '@/components/layout/MobileSidebar';
+import Sidebar from '@/components/layout/Sidebar';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -32,37 +32,9 @@ export default function RootLayout({
           className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50 min-h-screen`}
         >
           <div className="flex min-h-screen">
-            {/* サイドバー */}
-            <aside className="hidden md:flex flex-col w-64 bg-white border-r shadow-lg p-6 justify-between fixed inset-y-0 left-0 z-20">
-              <div>
-                <div className="flex items-center gap-2 mb-8">
-                  <span className="font-bold text-xl tracking-wide">AI円卓会議</span>
-                </div>
-                <Link href="/debates/create">
-                  <button className="w-full bg-blue-600 text-white py-2 rounded mb-6 font-semibold">
-                    + 新規ディベート作成
-                  </button>
-                </Link>
-                <nav className="space-y-2">
-                  <Link
-                    href="/debates"
-                    className="block px-3 py-2 rounded hover:bg-blue-50 font-medium"
-                  >
-                    ディベート一覧
-                  </Link>
-                  <Link
-                    href="/agents"
-                    className="block px-3 py-2 rounded hover:bg-blue-50 font-medium"
-                  >
-                    エージェント管理
-                  </Link>
-                </nav>
-              </div>
-              <div className="flex items-center gap-2 mt-8">
-                <span className="text-sm text-gray-600">ユーザー名</span>
-                <button className="text-xs text-gray-500 hover:underline">設定</button>
-                <button className="text-xs text-gray-500 hover:underline">ログアウト</button>
-              </div>
+            {/* デスクトップ用サイドバー */}
+            <aside className="hidden md:block fixed inset-y-0 left-0 z-20">
+              <Sidebar />
             </aside>
             {/* モバイル用サイドバー（ハンバーガー） */}
             {/* モバイル用サイドバー（ハンバーガーメニュー＋ドロワー） */}

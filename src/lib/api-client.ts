@@ -60,4 +60,10 @@ export const apiClient = {
     setTokens(token);
     return token;
   },
+
+  async getCurrentUser(): Promise<User> {
+    const res = await fetchWithAuth(`${API_BASE_URL}/api/users/me`);
+    if (!res.ok) throw new Error('ユーザー情報の取得に失敗しました');
+    return res.json();
+  },
 };

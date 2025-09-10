@@ -21,18 +21,43 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const token = getAccessToken();
-    setAccessToken(token);
-    setIsLoading(false);
-    // ユーザー情報取得（必要ならAPIで取得）
+    const initializeAuth = async () => {
+      const token = getAccessToken();
+      setAccessToken(token);
+
+      if (token) {
+        try {
+          const userData = await apiClient.getCurrentUser();
+          setUser(userData);
+        } catch (error) {
+          console.error('ユーザー情報の取得に失敗しました:', error);
+          // トークンが無効な場合はクリア
+          clearTokens();
+          setAccessToken(null);
+        }
+      }
+
+      setIsLoading(false);
+    };
+
+    initializeAuth();
   }, []);
 
   const login = async (username: string, password: string) => {
     setIsLoading(true);
-    const token: Token = await apiClient.login(username, password);
-    setAccessToken(token.access);
-    setIsLoading(false);
-    // 必要ならユーザー情報取得
+    try {
+      const token: Token = await apiClient.login(username, password);
+      setAccessToken(token.access);
+
+      // ログイン後にユーザー情報を取得
+      const userData = await apiClient.getCurrentUser();
+      setUser(userData);
+    } catch (error) {
+      console.error('ログインに失敗しました:', error);
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const logout = () => {

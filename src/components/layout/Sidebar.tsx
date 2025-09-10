@@ -1,6 +1,9 @@
+'use client';
 import Link from 'next/link';
+import { useAuth } from '../../context/AuthContext';
 
-export default function Sidebar({ onClose }: { onClose?: () => void }) {
+export default function Sidebar() {
+  const { user, logout } = useAuth();
   return (
     <nav className="w-64 bg-white h-full shadow-lg flex flex-col justify-between">
       <div>
@@ -21,27 +24,19 @@ export default function Sidebar({ onClose }: { onClose?: () => void }) {
           </Link>
         </nav>
       </div>
-      <div className="flex items-center gap-2 p-6 mt-8">
-        <span className="text-sm text-gray-600">ユーザー名</span>
-        <button className="text-xs text-gray-500 hover:underline">設定</button>
-        <button className="text-xs text-gray-500 hover:underline">ログアウト</button>
+      <div className="p-6 mt-8 border-t border-gray-200">
+        <div className="flex items-center justify-between">
+          <span className="text-sm text-gray-600 font-medium">
+            {user?.username || 'ゲストユーザー'}
+          </span>
+          <button
+            onClick={logout}
+            className="text-xs text-red-500 hover:text-red-700 hover:underline transition-colors"
+          >
+            ログアウト
+          </button>
+        </div>
       </div>
-      {onClose && (
-        <button
-          className="absolute top-4 right-4 text-gray-500"
-          onClick={onClose}
-          aria-label="閉じる"
-        >
-          <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
-            <path
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              d="M6 6l12 12M6 18L18 6"
-            />
-          </svg>
-        </button>
-      )}
     </nav>
   );
 }
