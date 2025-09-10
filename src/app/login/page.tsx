@@ -2,6 +2,10 @@
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useRouter } from 'next/navigation';
+import NeumorphismCard from '../../components/ui/NeumorphismCard';
+import NeumorphismInput from '../../components/ui/NeumorphismInput';
+import NeumorphismButton from '../../components/ui/NeumorphismButton';
+import NeumorphismLink from '../../components/ui/NeumorphismLink';
 
 export default function LoginPage() {
   const [form, setForm] = useState({ username: '', password: '' });
@@ -29,29 +33,47 @@ export default function LoginPage() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-md mx-auto p-8 space-y-4">
-      <h2 className="text-xl font-bold">ログイン</h2>
-      <input
-        name="username"
-        value={form.username}
-        onChange={handleChange}
-        placeholder="ユーザー名"
-        required
-        className="w-full border rounded px-2 py-1"
-      />
-      <input
-        name="password"
-        type="password"
-        value={form.password}
-        onChange={handleChange}
-        placeholder="パスワード"
-        required
-        className="w-full border rounded px-2 py-1"
-      />
-      {error && <div className="text-red-500">{error}</div>}
-      <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">
-        ログイン
-      </button>
-    </form>
+    <div className="min-h-screen bg-gray-200 flex items-center justify-center p-4">
+      <NeumorphismCard className="w-full max-w-md">
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-800 mb-2">AI円卓会議</h1>
+          <h2 className="text-xl font-semibold text-gray-600">ログイン</h2>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <NeumorphismInput
+            name="username"
+            value={form.username}
+            onChange={handleChange}
+            placeholder="ユーザー名"
+            required
+            error={error && error.includes('ユーザー名') ? error : undefined}
+          />
+
+          <NeumorphismInput
+            name="password"
+            type="password"
+            value={form.password}
+            onChange={handleChange}
+            placeholder="パスワード"
+            required
+            error={error && error.includes('パスワード') ? error : undefined}
+          />
+
+          {error && !error.includes('ユーザー名') && !error.includes('パスワード') && (
+            <div className="text-red-500 text-sm text-center bg-red-50 p-3 rounded-lg">{error}</div>
+          )}
+
+          <NeumorphismButton type="submit" variant="primary" size="lg" fullWidth className="mt-8">
+            ログイン
+          </NeumorphismButton>
+        </form>
+
+        <div className="mt-8 text-center">
+          <p className="text-gray-600 text-sm mb-4">アカウントをお持ちでない方は</p>
+          <NeumorphismLink href="/register">新規登録はこちら</NeumorphismLink>
+        </div>
+      </NeumorphismCard>
+    </div>
   );
 }

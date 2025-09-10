@@ -24,3 +24,95 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Neumorphism Styles */
+.neumorphism-card {
+  background: #e6e6e6;
+  border-radius: 16px;
+  box-shadow: 8px 8px 16px #d1d9e6, -8px -8px 16px #ffffff;
+}
+
+.neumorphism-input {
+  background: #e6e6e6;
+  border: none;
+  border-radius: 12px;
+  box-shadow: inset 4px 4px 8px #d1d9e6, inset -4px -4px 8px #ffffff;
+  transition: all 0.2s ease;
+}
+
+.neumorphism-input:focus {
+  outline: none;
+  box-shadow: inset 6px 6px 12px #d1d9e6, inset -6px -6px 12px #ffffff;
+}
+
+.neumorphism-input.error {
+  box-shadow: inset 4px 4px 8px #ff6b6b, inset -4px -4px 8px #ffffff;
+}
+
+.neumorphism-button {
+  border: none;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.neumorphism-button.primary {
+  background: #3b82f6;
+  color: white;
+  box-shadow: 4px 4px 8px #3b82f6, -4px -4px 8px #60a5fa;
+}
+
+.neumorphism-button.primary:hover {
+  box-shadow: 6px 6px 12px #3b82f6, -6px -6px 12px #60a5fa;
+}
+
+.neumorphism-button.primary:active {
+  box-shadow: inset 4px 4px 8px #3b82f6, inset -4px -4px 8px #60a5fa;
+}
+
+.neumorphism-button.secondary {
+  background: #e6e6e6;
+  color: #374151;
+  box-shadow: 4px 4px 8px #d1d9e6, -4px -4px 8px #ffffff;
+}
+
+.neumorphism-button.secondary:hover {
+  box-shadow: 6px 6px 12px #d1d9e6, -6px -6px 12px #ffffff;
+}
+
+.neumorphism-button.secondary:active {
+  box-shadow: inset 4px 4px 8px #d1d9e6, inset -4px -4px 8px #ffffff;
+}
+
+.neumorphism-button.danger {
+  background: #ef4444;
+  color: white;
+  box-shadow: 4px 4px 8px #ef4444, -4px -4px 8px #f87171;
+}
+
+.neumorphism-button.danger:hover {
+  box-shadow: 6px 6px 12px #ef4444, -6px -6px 12px #f87171;
+}
+
+.neumorphism-button.danger:active {
+  box-shadow: inset 4px 4px 8px #ef4444, inset -4px -4px 8px #f87171;
+}
+
+.neumorphism-link {
+  background: #e6e6e6;
+  color: #374151;
+  border-radius: 8px;
+  box-shadow: 4px 4px 8px #d1d9e6, -4px -4px 8px #ffffff;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.neumorphism-link:hover {
+  box-shadow: 6px 6px 12px #d1d9e6, -6px -6px 12px #ffffff;
+  text-decoration: none;
+}
+
+.neumorphism-link:active {
+  box-shadow: inset 2px 2px 4px #d1d9e6, inset -2px -2px 4px #ffffff;
+}
