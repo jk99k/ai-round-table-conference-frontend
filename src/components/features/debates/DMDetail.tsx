@@ -6,6 +6,10 @@ import { debateApi } from '../../../lib/debate-api';
 export default function DMDetail({ debate }: { debate: DebateOut | null }) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [debateState, setDebateState] = useState<DebateOut | null>(debate);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [humanMessage, setHumanMessage] = useState('');
+  const [sending, setSending] = useState(false);
   // next_agent_name表示時は自動スクロール
   useEffect(() => {
     if (
@@ -29,8 +33,6 @@ export default function DMDetail({ debate }: { debate: DebateOut | null }) {
     const interval = setInterval(fetchDetail, 3000);
     return () => clearInterval(interval);
   }, [debate]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   if (!debateState)
     return <div className="text-gray-400 text-center mt-20">ディベートが見つかりません</div>;
@@ -47,6 +49,24 @@ export default function DMDetail({ debate }: { debate: DebateOut | null }) {
       else setError('議論終了に失敗しました');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleSendHumanMessage = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!debateState || !humanMessage.trim()) return;
+    setSending(true);
+    setError(null);
+    try {
+      await debateApi.interruptDebate(debateState.id, humanMessage);
+      setHumanMessage('');
+      // 最新のディベート情報を再取得
+      const updated = await debateApi.getDebateById(debateState.id);
+      setDebateState(updated);
+    } catch {
+      setError('メッセージ送信に失敗しました');
+    } finally {
+      setSending(false);
     }
   };
 
@@ -81,8 +101,8 @@ export default function DMDetail({ debate }: { debate: DebateOut | null }) {
           <>
             <ul className="flex flex-col gap-4">
               {debateState.messages.map((msg) => {
-                const agent = debateState.agents.find((p) => p.agent_id === msg.agent_id);
-                const isLeft = msg.agent_id === debateState.agents[0]?.agent_id;
+                const agent = debateState.agents?.find((p) => p.agent_id === msg.agent_id);
+                const isLeft = msg.agent_id === debateState.agents?.[0]?.agent_id;
                 return (
                   <li
                     key={msg.id}
@@ -93,9 +113,9 @@ export default function DMDetail({ debate }: { debate: DebateOut | null }) {
                         <Image
                           quality={100}
                           src={
-                            msg.agent.avatar_url?.startsWith('http')
+                            msg.agent?.avatar_url?.startsWith('http')
                               ? msg.agent.avatar_url
-                              : `${process.env.NEXT_PUBLIC_API_BASE_URL}/${msg.agent.avatar_url}`
+                              : `${process.env.NEXT_PUBLIC_API_BASE_URL}/${msg.agent?.avatar_url}`
                           }
                           alt={agent.name}
                           width={40}
@@ -104,7 +124,7 @@ export default function DMDetail({ debate }: { debate: DebateOut | null }) {
                           style={{ width: 40, height: 40 }}
                         />
                         <span className="text-xs text-gray-500 mt-1 max-w-[60px] truncate">
-                          {msg.agent.name}
+                          {msg.agent?.name}
                         </span>
                       </div>
                     )}
@@ -121,9 +141,9 @@ export default function DMDetail({ debate }: { debate: DebateOut | null }) {
                         <Image
                           quality={100}
                           src={
-                            msg.agent.avatar_url?.startsWith('http')
+                            msg.agent?.avatar_url?.startsWith('http')
                               ? msg.agent.avatar_url
-                              : `${process.env.NEXT_PUBLIC_API_BASE_URL}/${msg.agent.avatar_url}`
+                              : `${process.env.NEXT_PUBLIC_API_BASE_URL}/${msg.agent?.avatar_url}`
                           }
                           alt={agent.name}
                           width={40}
@@ -156,6 +176,24 @@ export default function DMDetail({ debate }: { debate: DebateOut | null }) {
           </>
         )}
       </div>
+      {/* 人間のメッセージ入力フォーム */}
+      <form onSubmit={handleSendHumanMessage} className="mt-4 flex gap-2">
+        <input
+          type="text"
+          className="border rounded px-3 py-2 flex-1"
+          placeholder="人間の指示・メッセージを入力..."
+          value={humanMessage}
+          onChange={(e) => setHumanMessage(e.target.value)}
+          disabled={sending || debateState.status !== 'IN_PROGRESS'}
+        />
+        <button
+          type="submit"
+          className="bg-blue-600 text-white px-4 py-2 rounded"
+          disabled={sending || !humanMessage.trim() || debateState.status !== 'IN_PROGRESS'}
+        >
+          {sending ? '送信中...' : '送信'}
+        </button>
+      </form>
     </div>
   );
 }

@@ -14,6 +14,15 @@ export default function DebateListPage() {
   const [debates, setDebates] = useState<DebateOut[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedId, setSelectedId] = useState<number | null>(null);
+
+  // debate作成直後にselectedIdをセット
+  useEffect(() => {
+    const storedId = window.localStorage.getItem('selectedDebateId');
+    if (storedId) {
+      setSelectedId(Number(storedId));
+      window.localStorage.removeItem('selectedDebateId');
+    }
+  }, []);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {

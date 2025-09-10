@@ -16,7 +16,7 @@ export interface MessageOut {
   agent_id: number;
   content: string;
   created_at: string;
-  agent: AgentOut;
+  agent?: AgentOut;
 }
 
 export interface AgentOut {
@@ -33,6 +33,6 @@ export interface DebateOut {
   next_agent_id: number | null;
   next_agent_name: string | null;
   messages: MessageOut[];
-  agents: AgentOut[];
+  agents?: AgentOut[];
   created_at: string;
 }

@@ -35,10 +35,11 @@ export default function CreateDebateForm() {
     setLoading(true);
     setError(null);
     try {
-      // agent_idsはカンマ区切りで入力し、数値配列に変換
       const data: DebateCreate = { topic: topic, agent_ids: selectedAgentIds };
       const debate = await debateApi.createDebate(data);
-      router.push(`/debates/${debate.id}`);
+      // debate一覧ページに遷移し、selectedIdをdebate.idにセット
+      window.localStorage.setItem('selectedDebateId', String(debate.id));
+      router.push('/debates');
     } catch {
       setError('ディベート作成に失敗しました');
     } finally {
