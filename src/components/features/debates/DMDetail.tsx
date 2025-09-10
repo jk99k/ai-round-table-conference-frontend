@@ -101,30 +101,34 @@ export default function DMDetail({ debate }: { debate: DebateOut | null }) {
           <>
             <ul className="flex flex-col gap-4">
               {debateState.messages.map((msg) => {
-                const agent = debateState.agents?.find((p) => p.agent_id === msg.agent_id);
                 const isLeft = msg.agent_id === debateState.agents?.[0]?.agent_id;
+                // デフォルトアイコンパス
+                const defaultAvatar = '/human.png';
+                // アイコンURL判定
+                const avatarUrl =
+                  msg.agent?.avatar_url && msg.agent.avatar_url !== 'undefined'
+                    ? msg.agent.avatar_url.startsWith('http')
+                      ? msg.agent.avatar_url
+                      : `${process.env.NEXT_PUBLIC_API_BASE_URL}/${msg.agent.avatar_url}`
+                    : defaultAvatar;
                 return (
                   <li
                     key={msg.id}
                     className={`flex items-end ${isLeft ? 'justify-start' : 'justify-end'}`}
                   >
-                    {isLeft && agent?.avatar_url && (
+                    {isLeft && (
                       <div className="flex flex-col items-center mr-2">
                         <Image
                           quality={100}
-                          src={
-                            msg.agent?.avatar_url?.startsWith('http')
-                              ? msg.agent.avatar_url
-                              : `${process.env.NEXT_PUBLIC_API_BASE_URL}/${msg.agent?.avatar_url}`
-                          }
-                          alt={agent.name}
+                          src={avatarUrl}
+                          alt={msg.agent?.name || msg.agent_name || 'Human'}
                           width={40}
                           height={40}
                           className="rounded-full object-cover border shadow"
                           style={{ width: 40, height: 40 }}
                         />
                         <span className="text-xs text-gray-500 mt-1 max-w-[60px] truncate">
-                          {msg.agent?.name}
+                          {msg.agent?.name || msg.agent_name || 'Human'}
                         </span>
                       </div>
                     )}
@@ -136,23 +140,19 @@ export default function DMDetail({ debate }: { debate: DebateOut | null }) {
                         {new Date(msg.created_at).toLocaleTimeString()}
                       </div>
                     </div>
-                    {!isLeft && agent?.avatar_url && (
+                    {!isLeft && (
                       <div className="flex flex-col items-center ml-2">
                         <Image
                           quality={100}
-                          src={
-                            msg.agent?.avatar_url?.startsWith('http')
-                              ? msg.agent.avatar_url
-                              : `${process.env.NEXT_PUBLIC_API_BASE_URL}/${msg.agent?.avatar_url}`
-                          }
-                          alt={agent.name}
+                          src={avatarUrl}
+                          alt={msg.agent?.name || msg.agent_name || 'Human'}
                           width={40}
                           height={40}
                           className="rounded-full object-cover border shadow"
                           style={{ width: 40, height: 40 }}
                         />
                         <span className="text-xs text-gray-500 mt-1 max-w-[60px] truncate">
-                          {agent.name}
+                          {msg.agent?.name || msg.agent_name || 'Human'}
                         </span>
                       </div>
                     )}

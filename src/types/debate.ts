@@ -14,6 +14,7 @@ export interface MessageOut {
   id: number;
   debate_id: number;
   agent_id: number;
+  agent_name?: string;
   content: string;
   created_at: string;
   agent?: AgentOut;
