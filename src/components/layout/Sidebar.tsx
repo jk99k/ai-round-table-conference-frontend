@@ -110,9 +110,22 @@ export default function Sidebar() {
           }}
         >
           <div className="flex items-center justify-between">
-            <span className="text-sm text-gray-700 font-medium">
-              {user?.username || 'ゲストユーザー'}
-            </span>
+            <div className="flex items-center gap-2">
+              {/* Neumorphic アイコン: username の一文字目 */}
+              <div
+                className="w-8 h-8 flex items-center justify-center rounded-full text-lg font-bold text-gray-700"
+                style={{
+                  background: '#e6e6e6',
+                  boxShadow: '4px 4px 8px #d1d9e6, -4px -4px 8px #ffffff',
+                  borderRadius: '50%',
+                }}
+              >
+                {user?.username ? user.username[0].toUpperCase() : 'G'}
+              </div>
+              <span className="text-sm text-gray-700 font-medium">
+                {user?.username || 'ゲストユーザー'}
+              </span>
+            </div>
             <button
               onClick={logout}
               className="text-xs text-red-500 hover:text-red-700 transition-colors px-2 py-1 rounded"
