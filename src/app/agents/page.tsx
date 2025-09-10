@@ -54,23 +54,59 @@ export default function AgentsPage() {
 
   return (
     <div className="flex flex-col md:flex-row w-full mx-auto md:h-[100vh]">
-      {/* 左カラム: エージェントリスト＋複数選択削除＋選択モード */}
-      <div className="md:w-1/3 w-full bg-white rounded shadow p-4 relative md:h-[100vh] md:overflow-y-auto">
-        <h2 className="text-lg font-bold mb-4">エージェント一覧</h2>
-        <button
-          className={`w-full mb-4 py-2 rounded font-semibold bg-blue-600 text-white`}
-          onClick={() => {
-            setSelectedId(null);
-            if (window.innerWidth < 768) {
-              setShowCreateModal(true);
-            }
-          }}
-        >
-          + 新規作成
-        </button>
-        <div className="flex items-center gap-2 mb-2">
+      {/* 左カラム: エージェントリスト＋複数選択削除＋選択モード（Neumorphicデザイン） */}
+      <div
+        className="md:w-1/3 w-full p-4 relative md:h-[100vh] md:overflow-y-auto"
+        style={{
+          background: '#e6e6e6',
+          borderRadius: '24px',
+          boxShadow: '12px 12px 24px #d1d9e6, -12px -12px 24px #ffffff',
+        }}
+      >
+        <h1 className="text-lg font-bold mb-4">エージェント一覧</h1>
+        <div className="w-full items-center flex flex-col px-2">
           <button
-            className={`px-3 py-1 rounded bg-gray-100 text-gray-700 text-xs font-bold shadow hover:bg-gray-200 transition ${selectMode ? 'bg-blue-100 text-blue-700' : ''}`}
+            className="w-full py-3 font-semibold mb-12"
+            style={{
+              background: '#3b82f6',
+              color: 'white',
+              borderRadius: '12px',
+              boxShadow: '4px 4px 8px #3b82f6, -4px -4px 8px #60a5fa',
+              transition: 'all 0.2s ease',
+              border: 'none',
+              cursor: 'pointer',
+            }}
+            onClick={() => {
+              setSelectedId(null);
+              setShowCreateModal(true);
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.boxShadow = '6px 6px 12px #3b82f6, -6px -6px 12px #60a5fa';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.boxShadow = '4px 4px 8px #3b82f6, -4px -4px 8px #60a5fa';
+            }}
+            onMouseDown={(e) => {
+              e.currentTarget.style.boxShadow =
+                'inset 4px 4px 8px #3b82f6, inset -4px -4px 8px #60a5fa';
+            }}
+            onMouseUp={(e) => {
+              e.currentTarget.style.boxShadow = '4px 4px 8px #3b82f6, -4px -4px 8px #60a5fa';
+            }}
+          >
+            + エージェント作成
+          </button>
+        </div>
+        <div className="flex items-center gap-2 mb-4">
+          <button
+            className={`px-3 py-1 rounded-xl text-xs font-bold text-blue-600 transition-all duration-100 ${selectMode ? 'bg-blue-100 text-blue-700' : ''}`}
+            style={{
+              background: '#e6e6e6',
+              boxShadow: '4px 4px 12px #d1d9e6, -4px -4px 12px #ffffff',
+              width: selectMode ? '120px' : '110px',
+              transition:
+                'width 0.3s cubic-bezier(0.4,0,0.2,1), padding 0.3s, background 0.3s, color 0.3s',
+            }}
             onClick={() => {
               setSelectMode(!selectMode);
               setSelectedIds([]);
@@ -94,13 +130,21 @@ export default function AgentsPage() {
         {loading ? (
           <div>読み込み中...</div>
         ) : (
-          <ul className="space-y-2">
+          <ul className="space-y-3">
             {agents.map((agent) => (
               <li
                 key={agent.id}
-                className={`flex items-center px-3 py-2 rounded cursor-pointer hover:bg-blue-50 transition-all duration-150 ${selectedId === agent.id ? 'bg-blue-100 font-bold' : ''}`}
-                onMouseEnter={() => {
+                className={`flex items-center px-4 py-3 rounded-xl cursor-pointer transition-all duration-150 ${selectedId === agent.id ? 'bg-blue-100 font-bold' : ''}`}
+                style={{
+                  background: '#e6e6e6',
+                  boxShadow: '4px 4px 12px #d1d9e6, -4px -4px 12px #ffffff',
+                }}
+                onMouseEnter={(e) => {
                   if (window.innerWidth >= 768) setSelectedId(agent.id);
+                  e.currentTarget.style.boxShadow = '8px 8px 24px #d1d9e6, -8px -8px 24px #ffffff';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = '4px 4px 12px #d1d9e6, -4px -4px 12px #ffffff';
                 }}
                 onClick={() => {
                   if (selectMode) {
@@ -117,7 +161,16 @@ export default function AgentsPage() {
                   }
                 }}
               >
-                {selectMode && (
+                <span
+                  style={{
+                    display: selectMode ? 'inline-block' : 'none',
+                    transition: 'opacity 0.3s, transform 0.3s',
+                    opacity: selectMode ? 1 : 0,
+                    transform: selectMode
+                      ? 'scale(1) translateX(0)'
+                      : 'scale(0.8) translateX(-10px)',
+                  }}
+                >
                   <input
                     type="checkbox"
                     className="mr-2 accent-blue-500 scale-110"
@@ -130,8 +183,17 @@ export default function AgentsPage() {
                     }}
                     onClick={(e) => e.stopPropagation()}
                   />
-                )}
-                <span className="truncate">{agent.name}</span>
+                </span>
+                <span
+                  style={{
+                    display: 'inline-block',
+                    transition: 'margin-left 0.3s cubic-bezier(0.4,0,0.2,1), color 0.3s',
+                    marginLeft: selectMode ? '8px' : '0px',
+                  }}
+                  className="truncate"
+                >
+                  {agent.name}
+                </span>
               </li>
             ))}
           </ul>

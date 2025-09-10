@@ -144,7 +144,7 @@ export default function Sidebar() {
                   ? user.username.length > 7
                     ? user.username.slice(0, 7) + '...'
                     : user.username
-                  : 'ゲストユーザー'}
+                  : 'ゲスト'}
               </span>
             </div>
             <button
