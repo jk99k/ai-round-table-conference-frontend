@@ -11,7 +11,7 @@ export default function Sidebar() {
     <nav
       className="w-64 h-full flex flex-col justify-between"
       style={{
-        background: '#e6e6e6',
+        background: '#f0f4f8',
         boxShadow: '8px 0 16px #d1d9e6, -8px 0 16px #ffffff',
       }}
     >
@@ -53,7 +53,7 @@ export default function Sidebar() {
             <div
               className="px-4 py-3 font-medium text-gray-700"
               style={{
-                background: '#e6e6e6',
+                background: '#f0f4f8',
                 borderRadius: '12px',
                 boxShadow: '4px 4px 8px #d1d9e6, -4px -4px 8px #ffffff',
                 transition: 'all 0.2s ease',
@@ -86,7 +86,7 @@ export default function Sidebar() {
             <div
               className="px-4 py-3 font-medium text-gray-700"
               style={{
-                background: '#e6e6e6',
+                background: '#f0f4f8',
                 borderRadius: '12px',
                 boxShadow: '4px 4px 8px #d1d9e6, -4px -4px 8px #ffffff',
                 transition: 'all 0.2s ease',
@@ -121,7 +121,7 @@ export default function Sidebar() {
         <div
           className="p-4"
           style={{
-            background: '#e6e6e6',
+            background: '#f0f4f8',
             borderRadius: '16px',
             boxShadow: '8px 8px 16px #d1d9e6, -8px -8px 16px #ffffff',
           }}
@@ -132,7 +132,7 @@ export default function Sidebar() {
               <div
                 className="w-8 h-8 flex items-center justify-center rounded-full text-lg font-bold text-gray-700"
                 style={{
-                  background: '#e6e6e6',
+                  background: '#f0f4f8',
                   boxShadow: '4px 4px 8px #d1d9e6, -4px -4px 8px #ffffff',
                   borderRadius: '50%',
                 }}
@@ -151,7 +151,7 @@ export default function Sidebar() {
               onClick={logout}
               className="flex h-8 items-center cursor-pointer gap-2 text-xs text-red-500 hover:text-red-700 transition-colors px-2 py-1 rounded"
               style={{
-                background: '#e6e6e6',
+                background: '#f0f4f8',
                 boxShadow: '4px 4px 8px #d1d9e6, -4px -4px 8px #ffffff',
                 borderRadius: '12px',
               }}

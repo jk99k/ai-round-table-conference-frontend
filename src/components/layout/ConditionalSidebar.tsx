@@ -23,7 +23,7 @@ export default function ConditionalSidebar() {
       <div
         className="md:hidden fixed top-0 left-0 w-full z-30 flex items-center justify-between px-4 py-3"
         style={{
-          background: '#e6e6e6',
+          background: '#f0f4f8',
           boxShadow: '0 4px 8px #d1d9e6, 0 -4px 8px #ffffff',
         }}
       >

@@ -53,14 +53,14 @@ export default function AgentsPage() {
   const selectedAgent = agents.find((a) => a.id === selectedId) || null;
 
   return (
-    <div className="flex flex-col md:flex-row w-full mx-auto md:h-[100vh]">
+    <div className="flex flex-col md:flex-row w-full mx-auto md:h-[100vh] bg-[#f0f4f8]">
       {/* 左カラム: エージェントリスト＋複数選択削除＋選択モード（Neumorphicデザイン） */}
       <div
         className="md:w-1/3 w-full p-4 relative md:h-[100vh] md:overflow-y-auto"
         style={{
-          background: '#e6e6e6',
+          background: '#f0f4f8',
           borderRadius: '24px',
-          boxShadow: '12px 12px 24px #d1d9e6, -12px -12px 24px #ffffff',
+          // boxShadow: '12px 0px 24px #d1d9e6',
         }}
       >
         <h1 className="text-lg font-bold mb-4">エージェント一覧</h1>
@@ -101,8 +101,8 @@ export default function AgentsPage() {
           <button
             className={`px-3 py-1 rounded-xl text-xs font-bold text-blue-600 transition-all duration-100 ${selectMode ? 'bg-blue-100 text-blue-700' : ''}`}
             style={{
-              background: '#e6e6e6',
-              boxShadow: '4px 4px 12px #d1d9e6, -4px -4px 12px #ffffff',
+              background: '#f0f4f8',
+              boxShadow: '4px 4px 12px #cfd8e3, -4px -4px 12px #ffffff',
               width: selectMode ? '120px' : '110px',
               transition:
                 'width 0.3s cubic-bezier(0.4,0,0.2,1), padding 0.3s, background 0.3s, color 0.3s',
@@ -136,15 +136,15 @@ export default function AgentsPage() {
                 key={agent.id}
                 className={`flex items-center px-4 py-3 rounded-xl cursor-pointer transition-all duration-150 ${selectedId === agent.id ? 'bg-blue-100 font-bold' : ''}`}
                 style={{
-                  background: '#e6e6e6',
-                  boxShadow: '4px 4px 12px #d1d9e6, -4px -4px 12px #ffffff',
+                  background: '#f0f4f8',
+                  boxShadow: '4px 4px 12px #cfd8e3, -4px -4px 12px #ffffff',
                 }}
                 onMouseEnter={(e) => {
                   if (window.innerWidth >= 768) setSelectedId(agent.id);
-                  e.currentTarget.style.boxShadow = '8px 8px 24px #d1d9e6, -8px -8px 24px #ffffff';
+                  e.currentTarget.style.boxShadow = '8px 8px 24px #cfd8e3, -8px -8px 24px #ffffff';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = '4px 4px 12px #d1d9e6, -4px -4px 12px #ffffff';
+                  e.currentTarget.style.boxShadow = '4px 4px 12px #cfd8e3, -4px -4px 12px #ffffff';
                 }}
                 onClick={() => {
                   if (selectMode) {
@@ -267,6 +267,11 @@ export default function AgentsPage() {
                   className="w-24 h-24 rounded-full mb-4 object-cover border mx-auto"
                   width={96}
                   height={96}
+                  style={{
+                    boxShadow:
+                      '20px 20px 40px #d1d9e6, -20px -20px 40px #ffffff, 0 4px 16px #bfc8d6 inset, 0 -4px 16px #fff inset',
+                    background: '#f0f4f8',
+                  }}
                 />
               )}
               <div className="mb-4 flex-1 flex flex-col">
@@ -346,35 +351,76 @@ export default function AgentsPage() {
         `}</style>
       </div>
       {/* 右カラム: 詳細 or 新規作成（モバイル時はフォーム非表示） */}
-      <div className="md:w-2/3 w-full bg-white rounded shadow p-6 md:h-[100vh] md:overflow-y-auto">
+      <div className="md:w-2/3 w-full rounded shadow md:h-[100vh] md:overflow-y-auto">
         {selectedAgent ? (
-          <div className="w-full flex flex-col items-center">
-            <h2 className="text-xl font-bold mb-4">{selectedAgent.name}</h2>
-            {selectedAgent.avatar_url && (
+          <div
+            className="w-full flex flex-col items-center"
+            style={{
+              background: '#f0f4f8',
+              boxShadow: '12px 12px 24px #cfd8e3, -12px -12px 24px #ffffff',
+              padding: '2.5rem 1.5rem',
+            }}
+          >
+            <div className="flex items-center mb-4">
+              <h2 className="text-xl font-bold mr-2">{selectedAgent.name}</h2>
+              <span className="text-xs text-gray-400 align-bottom">
+                {new Date(selectedAgent.created_at).toLocaleString()}
+              </span>
+            </div>
+            <div
+              className="flex items-center justify-center mb-4"
+              style={{
+                background: '#f0f4f8',
+                borderRadius: '50%',
+                boxShadow:
+                  '8px 8px 12px #cfd8e3, -8px -8px 24px #ffffff, 0 2px 8px #bfc8d6 inset, 0 -2px 8px #fff inset',
+                width: '120px',
+                height: '120px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
               <Image
                 quality={100}
                 src={
-                  selectedAgent.avatar_url.startsWith('http')
-                    ? selectedAgent.avatar_url
-                    : `${process.env.NEXT_PUBLIC_API_BASE_URL}/${selectedAgent.avatar_url}`
+                  selectedAgent.avatar_url && selectedAgent.avatar_url !== 'undefined'
+                    ? selectedAgent.avatar_url.startsWith('http')
+                      ? selectedAgent.avatar_url
+                      : `${process.env.NEXT_PUBLIC_API_BASE_URL}/${selectedAgent.avatar_url}`
+                    : '/human.png'
                 }
                 alt={selectedAgent.name}
-                className="w-24 h-24 rounded-full mb-4 object-cover border"
+                className="w-24 h-24 rounded-full object-cover"
                 width={96}
                 height={96}
+                style={{
+                  background: '#f0f4f8',
+                  borderRadius: '50%',
+                  boxShadow: '4px 4px 12px #cfd8e3, -4px -4px 12px #ffffff',
+                }}
               />
-            )}
-            <div className="mb-4">
-              <span className="font-semibold">ペルソナ:</span>
-              <div className="mt-2 whitespace-pre-wrap text-gray-700">
-                {selectedAgent.persona_prompt || (
+            </div>
+            <div className="mb-4 w-full flex flex-col items-center">
+              <span className="font-semibold mb-2">人物像</span>
+              <div
+                className="whitespace-pre-wrap text-gray-700 px-6 py-4 rounded-2xl shadow"
+                style={{
+                  background: 'linear-gradient(135deg, #f5f7fa 60%, #f0f4f8 100%)',
+                  boxShadow: '-8px -8px 24px #ffffff, 8px 8px 24px #cfd8e3',
+                  borderRadius: '24px',
+                  minHeight: '80px',
+                  width: '100%',
+                }}
+              >
+                {selectedAgent.persona_prompt ? (
+                  selectedAgent.persona_prompt.replace(/\*/g, '')
+                ) : (
                   <span className="text-gray-400">ペルソナ未生成</span>
                 )}
               </div>
             </div>
-            <div className="text-xs text-gray-400">
-              作成日: {new Date(selectedAgent.created_at).toLocaleString()}
-            </div>
+            <div className="text-xs text-gray-400 mt-2">{/* 作成日表示は名前横に移動済み */}</div>
           </div>
         ) : (
           <div className="hidden md:block">

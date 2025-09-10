@@ -14,7 +14,7 @@ const NeumorphismInput = forwardRef<HTMLInputElement, NeumorphismInputProps>(
           ref={ref}
           className={`w-full px-4 py-3 ${className}`}
           style={{
-            background: '#e6e6e6',
+            background: '#f0f4f8',
             border: 'none',
             borderRadius: '12px',
             boxShadow: error

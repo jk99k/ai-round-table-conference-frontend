@@ -8,9 +8,9 @@ export default function NeumorphismCard({ children, className = '' }: Neumorphis
     <div
       className={`p-8 ${className}`}
       style={{
-        background: '#e6e6e6',
+        background: '#f0f4f8',
         borderRadius: '16px',
-        boxShadow: '8px 8px 16px #d1d9e6, -8px -8px 16px #ffffff',
+        boxShadow: '8px 8px 16px #cfd8e3, -8px -8px 16px #ffffff',
       }}
     >
       {children}

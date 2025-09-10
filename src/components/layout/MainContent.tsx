@@ -12,7 +12,7 @@ export default function MainContent({ children }: MainContentProps) {
     <main
       className={`flex-1 w-full h-full${isAuthPage ? '' : ' md:ml-64'}`}
       style={{
-        background: '#e6e6e6',
+        background: '#f0f4f8',
         minHeight: '100vh',
         width: '100%',
         height: '100%',

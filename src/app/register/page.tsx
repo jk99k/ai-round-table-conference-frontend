@@ -32,11 +32,13 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-200 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-[#f0f4f8] flex items-center justify-center p-4">
       <NeumorphismCard className="w-full max-w-md">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-800 mb-2">AI円卓会議</h1>
-          <h2 className="text-xl font-semibold text-gray-600">新規登録</h2>
+          <h2 className="text-xl font-semibold text-gray-600">
+            <span style={{ color: '#10b981', fontWeight: 700 }}>新規登録</span>
+          </h2>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">

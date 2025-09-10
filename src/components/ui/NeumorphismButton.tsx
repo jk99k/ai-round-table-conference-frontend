@@ -22,7 +22,7 @@ export default function NeumorphismButton({
         };
       case 'secondary':
         return {
-          background: '#e6e6e6',
+          background: '#f0f4f8',
           color: '#374151',
           boxShadow: '4px 4px 8px #d1d9e6, -4px -4px 8px #ffffff',
         };

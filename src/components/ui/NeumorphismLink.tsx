@@ -12,7 +12,7 @@ export default function NeumorphismLink({ href, children, className = '' }: Neum
       href={href}
       className={`px-4 py-2 text-sm font-medium ${className}`}
       style={{
-        background: '#e6e6e6',
+        background: '#f0f4f8',
         color: '#374151',
         borderRadius: '8px',
         boxShadow: '4px 4px 8px #d1d9e6, -4px -4px 8px #ffffff',
