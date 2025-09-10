@@ -71,7 +71,7 @@ export default function DebateListPage() {
   return (
     // モバイル: 画面遷移風
     isMobile ? (
-      <div className="w-full min-h-screen bg-gray-50">
+      <div className="w-full min-h-screen bg-[#f0f4f8]">
         {!selectedId ? (
           <div className="p-4">
             <h2 className="text-lg font-bold mb-4">ディベート一覧</h2>
@@ -122,7 +122,11 @@ export default function DebateListPage() {
               {debates.map((debate) => (
                 <li
                   key={debate.id}
-                  className="p-3 rounded bg-white shadow cursor-pointer hover:bg-blue-50 flex items-center"
+                  className="p-3 rounded-xl cursor-pointer flex items-center"
+                  style={{
+                    background: '#f0f4f8',
+                    boxShadow: '4px 4px 12px #cfd8e3, -4px -4px 12px #ffffff',
+                  }}
                   onClick={() => {
                     if (selectMode) {
                       setSelectedIds((ids) =>
@@ -161,7 +165,14 @@ export default function DebateListPage() {
           </div>
         ) : (
           <div className="w-full h-screen flex flex-col bg-white">
-            <button className="p-2 text-blue-600 font-bold" onClick={() => setSelectedId(null)}>
+            <button
+              className="p-2 text-blue-600 font-bold rounded-xl"
+              style={{
+                background: '#f0f4f8',
+                boxShadow: '4px 4px 12px #cfd8e3, -4px -4px 12px #ffffff',
+              }}
+              onClick={() => setSelectedId(null)}
+            >
               ← 戻る
             </button>
             <DMDetail debate={debates.find((d) => d.id === selectedId) || null} />
@@ -172,7 +183,14 @@ export default function DebateListPage() {
       // デスクトップ: 2カラム
       <div className="flex flex-col md:flex-row w-full mx-auto md:h-[100vh]">
         {/* 左カラム: ディベート一覧＋複数選択削除 */}
-        <div className="md:w-1/3 w-full bg-white rounded shadow p-4 relative md:h-[100vh] md:overflow-y-auto">
+        <div
+          className="md:w-1/3 w-full p-4 relative md:h-[100vh] md:overflow-y-auto"
+          style={{
+            background: '#f0f4f8',
+            borderRadius: '24px',
+            boxShadow: '12px 0px 24px #cfd8e3',
+          }}
+        >
           <h2 className="text-lg font-bold mb-4">ディベート一覧</h2>
           {error && <div className="text-red-500 mb-2">{error}</div>}
           <div className="flex items-center gap-2 mb-2">
@@ -221,7 +239,11 @@ export default function DebateListPage() {
               {debates.map((debate) => (
                 <li
                   key={debate.id}
-                  className={`p-3 rounded cursor-pointer hover:bg-blue-50 flex items-center ${selectedId === debate.id ? 'bg-blue-100 font-bold' : ''}`}
+                  className={`p-3 rounded-xl cursor-pointer flex items-center ${selectedId === debate.id ? 'bg-blue-100 font-bold' : ''}`}
+                  style={{
+                    background: '#f0f4f8',
+                    boxShadow: '4px 4px 12px #cfd8e3, -4px -4px 12px #ffffff',
+                  }}
                   onClick={() => {
                     if (selectMode) {
                       setSelectedIds((ids) =>
@@ -269,7 +291,16 @@ export default function DebateListPage() {
           )}
         </div>
         {/* 右カラム: ディベート詳細（DM風UI） */}
-        <div className="md:w-2/3 w-full bg-white rounded shadow p-6 md:h-[100vh] md:overflow-y-auto flex flex-col">
+        <div
+          className="md:w-2/3 w-full flex flex-col"
+          style={{
+            background: '#f0f4f8',
+            borderRadius: '32px',
+            boxShadow: '12px 12px 24px #cfd8e3, -12px -12px 24px #ffffff',
+            padding: '2.5rem 1.5rem',
+            minHeight: '100vh',
+          }}
+        >
           {selectedId ? (
             <DMDetail debate={debates.find((d) => d.id === selectedId) || null} />
           ) : (

@@ -264,9 +264,9 @@ export default function AgentsPage() {
                       : `${process.env.NEXT_PUBLIC_API_BASE_URL}/${modalAgent.avatar_url}`
                   }
                   alt={modalAgent.name}
-                  className="w-24 h-24 rounded-full mb-4 object-cover border mx-auto"
-                  width={96}
-                  height={96}
+                  className="w-48 h-48 rounded-full mb-4 object-cover border mx-auto"
+                  width={170}
+                  height={170}
                   style={{
                     boxShadow:
                       '20px 20px 40px #d1d9e6, -20px -20px 40px #ffffff, 0 4px 16px #bfc8d6 inset, 0 -4px 16px #fff inset',
@@ -374,8 +374,8 @@ export default function AgentsPage() {
                 borderRadius: '50%',
                 boxShadow:
                   '8px 8px 12px #cfd8e3, -8px -8px 24px #ffffff, 0 2px 8px #bfc8d6 inset, 0 -2px 8px #fff inset',
-                width: '120px',
-                height: '120px',
+                width: '200px',
+                height: '200px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -391,9 +391,9 @@ export default function AgentsPage() {
                     : '/human.png'
                 }
                 alt={selectedAgent.name}
-                className="w-24 h-24 rounded-full object-cover"
-                width={96}
-                height={96}
+                className="w-48 h-48 rounded-full object-cover"
+                width={170}
+                height={170}
                 style={{
                   background: '#f0f4f8',
                   borderRadius: '50%',
@@ -423,7 +423,15 @@ export default function AgentsPage() {
             <div className="text-xs text-gray-400 mt-2">{/* 作成日表示は名前横に移動済み */}</div>
           </div>
         ) : (
-          <div className="hidden md:block">
+          <div
+            className="hidden md:flex"
+            style={{
+              height: '100%',
+              alignItems: 'center',
+              justifyContent: 'center',
+              display: 'flex',
+            }}
+          >
             <CreateAgentForm />
           </div>
         )}
