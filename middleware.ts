@@ -9,6 +9,9 @@ const authPaths = ['/login', '/register'];
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // デバッグ用ログ
+  console.log('Middleware executed for path:', pathname);
+
   // 認証が必要なパスかチェック
   const isProtectedPath = protectedPaths.some((path) => pathname.startsWith(path));
   // 認証済みユーザーがアクセスできないパスかチェック
@@ -17,6 +20,12 @@ export function middleware(request: NextRequest) {
   // アクセストークンを取得
   const accessToken = request.cookies.get('accessToken')?.value;
   const isAuthenticated = !!accessToken;
+
+  // ルートパス（/）にアクセスした場合は/debatesにリダイレクト
+  if (pathname === '/') {
+    console.log('Redirecting from / to /debates');
+    return NextResponse.redirect(new URL('/debates', request.url));
+  }
 
   // 認証が必要なパスに未認証でアクセスした場合
   if (isProtectedPath && !isAuthenticated) {
@@ -27,7 +36,7 @@ export function middleware(request: NextRequest) {
 
   // 認証済みユーザーが認証ページにアクセスした場合
   if (isAuthPath && isAuthenticated) {
-    return NextResponse.redirect(new URL('/', request.url));
+    return NextResponse.redirect(new URL('/debates', request.url));
   }
 
   return NextResponse.next();
@@ -43,6 +52,10 @@ export const config = {
      * - favicon.ico (favicon file)
      * - public folder
      */
-    '/((?!api|_next/static|_next/image|favicon.ico|public).*)',
+    '/',
+    '/agents/:path*',
+    '/debates/:path*',
+    '/login',
+    '/register',
   ],
 };
