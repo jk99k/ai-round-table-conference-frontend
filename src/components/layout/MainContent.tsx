@@ -1,23 +1,19 @@
 'use client';
-import { usePathname } from 'next/navigation';
 
 interface MainContentProps {
   children: React.ReactNode;
 }
 
 export default function MainContent({ children }: MainContentProps) {
-  const pathname = usePathname();
-  const isAuthPage = pathname === '/login' || pathname === '/register';
-
-  // 認証ページではマージンなし、それ以外ではサイドバー分のマージン
-  const marginClass = isAuthPage ? 'ml-0' : 'ml-0 md:ml-64';
-
+  // 画面いっぱい表示（サイドバー除く）
   return (
     <main
-      className={`flex-1 ${marginClass}`}
+      className="flex-1 w-full h-full md:ml-64"
       style={{
         background: '#e6e6e6',
         minHeight: '100vh',
+        width: '100%',
+        height: '100%',
       }}
     >
       {children}

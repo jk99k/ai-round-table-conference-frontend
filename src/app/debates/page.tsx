@@ -161,7 +161,7 @@ export default function DebateListPage() {
       </div>
     ) : (
       // デスクトップ: 2カラム
-      <div className="flex flex-col md:flex-row gap-6 w-full max-w-5xl mx-auto md:h-[100vh]">
+      <div className="flex flex-col md:flex-row w-full mx-auto md:h-[100vh]">
         {/* 左カラム: ディベート一覧＋複数選択削除 */}
         <div className="md:w-1/3 w-full bg-white rounded shadow p-4 relative md:h-[100vh] md:overflow-y-auto">
           <h2 className="text-lg font-bold mb-4">ディベート一覧</h2>
