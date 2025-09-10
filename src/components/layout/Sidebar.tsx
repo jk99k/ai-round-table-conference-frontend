@@ -1,6 +1,9 @@
 'use client';
 import Link from 'next/link';
 import { useAuth } from '../../context/AuthContext';
+import { MdTableBar } from 'react-icons/md';
+import { LuBrainCircuit } from 'react-icons/lu';
+import { RiLogoutCircleLine } from 'react-icons/ri';
 
 export default function Sidebar() {
   const { user, logout } = useAuth();
@@ -69,7 +72,14 @@ export default function Sidebar() {
                 e.currentTarget.style.boxShadow = '4px 4px 8px #d1d9e6, -4px -4px 8px #ffffff';
               }}
             >
-              ディベート一覧
+              <span className="flex items-center gap-2 text-gray-700">
+                <MdTableBar
+                  size={20}
+                  color="#42a5f5"
+                  style={{ filter: 'drop-shadow(0 4px 8px #b0b8c9)' }}
+                />
+                ディベート一覧
+              </span>
             </div>
           </Link>
           <Link href="/agents" className="block">
@@ -95,12 +105,19 @@ export default function Sidebar() {
                 e.currentTarget.style.boxShadow = '4px 4px 8px #d1d9e6, -4px -4px 8px #ffffff';
               }}
             >
-              エージェント管理
+              <span className="flex items-center gap-2 text-gray-700">
+                <LuBrainCircuit
+                  size={20}
+                  color="#66bb6a"
+                  style={{ filter: 'drop-shadow(0 4px 8px #b0b8c9)' }}
+                />
+                エージェント管理
+              </span>
             </div>
           </Link>
         </nav>
       </div>
-      <div className="p-6 mt-8">
+      <div className="p-4 mt-8">
         <div
           className="p-4"
           style={{
@@ -123,13 +140,25 @@ export default function Sidebar() {
                 {user?.username ? user.username[0].toUpperCase() : 'G'}
               </div>
               <span className="text-sm text-gray-700 font-medium">
-                {user?.username || 'ゲストユーザー'}
+                {user?.username
+                  ? user.username.length > 7
+                    ? user.username.slice(0, 7) + '...'
+                    : user.username
+                  : 'ゲストユーザー'}
               </span>
             </div>
             <button
               onClick={logout}
-              className="text-xs text-red-500 hover:text-red-700 transition-colors px-2 py-1 rounded"
+              className="flex h-8 items-center cursor-pointer gap-2 text-xs text-red-500 hover:text-red-700 transition-colors px-2 py-1 rounded"
+              style={{
+                background: '#e6e6e6',
+                boxShadow: '4px 4px 8px #d1d9e6, -4px -4px 8px #ffffff',
+                borderRadius: '12px',
+              }}
             >
+              <span className="flex items-center justify-center">
+                <RiLogoutCircleLine size={16} />
+              </span>
               ログアウト
             </button>
           </div>
