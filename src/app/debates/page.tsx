@@ -232,63 +232,59 @@ export default function DebateListPage() {
               </button>
             )}
           </div>
-          {loading ? (
-            <div>読み込み中...</div>
-          ) : (
-            <ul className="space-y-2">
-              {debates.map((debate) => (
-                <li
-                  key={debate.id}
-                  className={`p-3 rounded-xl cursor-pointer flex items-center ${selectedId === debate.id ? 'bg-blue-100 font-bold' : ''}`}
-                  style={{
-                    background: '#f0f4f8',
-                    boxShadow: '4px 4px 12px #cfd8e3, -4px -4px 12px #ffffff',
-                  }}
-                  onClick={() => {
-                    if (selectMode) {
+          <ul className="space-y-2">
+            {debates.map((debate) => (
+              <li
+                key={debate.id}
+                className={`p-3 rounded-xl cursor-pointer flex items-center ${selectedId === debate.id ? 'bg-blue-100 font-bold' : ''}`}
+                style={{
+                  background: '#f0f4f8',
+                  boxShadow: '4px 4px 12px #cfd8e3, -4px -4px 12px #ffffff',
+                }}
+                onClick={() => {
+                  if (selectMode) {
+                    setSelectedIds((ids) =>
+                      ids.includes(debate.id)
+                        ? ids.filter((id) => id !== debate.id)
+                        : [...ids, debate.id]
+                    );
+                  } else {
+                    setSelectedId(debate.id);
+                  }
+                }}
+              >
+                {selectMode && (
+                  <input
+                    type="checkbox"
+                    className="mr-2 accent-blue-500 scale-110"
+                    checked={selectedIds.includes(debate.id)}
+                    onChange={(e) => {
+                      e.stopPropagation();
                       setSelectedIds((ids) =>
-                        ids.includes(debate.id)
-                          ? ids.filter((id) => id !== debate.id)
-                          : [...ids, debate.id]
+                        e.target.checked
+                          ? [...ids, debate.id]
+                          : ids.filter((id) => id !== debate.id)
                       );
-                    } else {
-                      setSelectedId(debate.id);
-                    }
-                  }}
-                >
-                  {selectMode && (
-                    <input
-                      type="checkbox"
-                      className="mr-2 accent-blue-500 scale-110"
-                      checked={selectedIds.includes(debate.id)}
-                      onChange={(e) => {
-                        e.stopPropagation();
-                        setSelectedIds((ids) =>
-                          e.target.checked
-                            ? [...ids, debate.id]
-                            : ids.filter((id) => id !== debate.id)
-                        );
-                      }}
-                      onClick={(e) => e.stopPropagation()}
-                    />
-                  )}
-                  <div className="flex-1">
-                    <div className="font-semibold flex items-center gap-2">
-                      {debate.topic}
-                      {debate.status === 'IN_PROGRESS' && debate.next_agent_name && (
-                        <span className="ml-2 text-xs text-blue-500 animate-pulse">
-                          {debate.next_agent_name}が入力中...
-                        </span>
-                      )}
-                    </div>
-                    <div className="text-xs text-gray-400">
-                      {new Date(debate.created_at).toLocaleString()}
-                    </div>
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                  />
+                )}
+                <div className="flex-1">
+                  <div className="font-semibold flex items-center gap-2">
+                    {debate.topic}
+                    {debate.status === 'IN_PROGRESS' && debate.next_agent_name && (
+                      <span className="ml-2 text-xs text-blue-500 animate-pulse">
+                        {debate.next_agent_name}が入力中...
+                      </span>
+                    )}
                   </div>
-                </li>
-              ))}
-            </ul>
-          )}
+                  <div className="text-xs text-gray-400">
+                    {new Date(debate.created_at).toLocaleString()}
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
         </div>
         {/* 右カラム: ディベート詳細（DM風UI） */}
         <div
