@@ -129,77 +129,73 @@ export default function AgentsPage() {
             </>
           )}
         </div>
-        {loading ? (
-          <div>読み込み中...</div>
-        ) : (
-          <ul className="space-y-3">
-            {agents.map((agent) => (
-              <li
-                key={agent.id}
-                className={`flex items-center px-4 py-3 rounded-xl cursor-pointer transition-all duration-150 ${selectedId === agent.id ? 'bg-blue-100 font-bold' : ''}`}
+
+        <ul className="space-y-3">
+          {agents.map((agent) => (
+            <li
+              key={agent.id}
+              className={`flex items-center px-4 py-3 rounded-xl cursor-pointer transition-all duration-150 ${selectedId === agent.id ? 'bg-blue-100 font-bold' : ''}`}
+              style={{
+                background: '#f0f4f8',
+                boxShadow: '4px 4px 12px #cfd8e3, -4px -4px 12px #ffffff',
+              }}
+              onMouseEnter={(e) => {
+                if (window.innerWidth >= 768) setSelectedId(agent.id);
+                e.currentTarget.style.boxShadow = '8px 8px 24px #cfd8e3, -8px -8px 24px #ffffff';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.boxShadow = '4px 4px 12px #cfd8e3, -4px -4px 12px #ffffff';
+              }}
+              onClick={() => {
+                if (selectMode) {
+                  setSelectedIds((ids) =>
+                    ids.includes(agent.id)
+                      ? ids.filter((id) => id !== agent.id)
+                      : [...ids, agent.id]
+                  );
+                } else if (window.innerWidth < 768) {
+                  setModalAgent(agent);
+                  setShowDetailModal(true);
+                } else {
+                  setSelectedId(agent.id);
+                }
+              }}
+            >
+              <span
                 style={{
-                  background: '#f0f4f8',
-                  boxShadow: '4px 4px 12px #cfd8e3, -4px -4px 12px #ffffff',
-                }}
-                onMouseEnter={(e) => {
-                  if (window.innerWidth >= 768) setSelectedId(agent.id);
-                  e.currentTarget.style.boxShadow = '8px 8px 24px #cfd8e3, -8px -8px 24px #ffffff';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = '4px 4px 12px #cfd8e3, -4px -4px 12px #ffffff';
-                }}
-                onClick={() => {
-                  if (selectMode) {
-                    setSelectedIds((ids) =>
-                      ids.includes(agent.id)
-                        ? ids.filter((id) => id !== agent.id)
-                        : [...ids, agent.id]
-                    );
-                  } else if (window.innerWidth < 768) {
-                    setModalAgent(agent);
-                    setShowDetailModal(true);
-                  } else {
-                    setSelectedId(agent.id);
-                  }
+                  display: selectMode ? 'inline-block' : 'none',
+                  transition: 'opacity 0.3s, transform 0.3s',
+                  opacity: selectMode ? 1 : 0,
+                  transform: selectMode ? 'scale(1) translateX(0)' : 'scale(0.8) translateX(-10px)',
                 }}
               >
-                <span
-                  style={{
-                    display: selectMode ? 'inline-block' : 'none',
-                    transition: 'opacity 0.3s, transform 0.3s',
-                    opacity: selectMode ? 1 : 0,
-                    transform: selectMode
-                      ? 'scale(1) translateX(0)'
-                      : 'scale(0.8) translateX(-10px)',
+                <input
+                  type="checkbox"
+                  className="mr-2 accent-blue-500 scale-110"
+                  checked={selectedIds.includes(agent.id)}
+                  onChange={(e) => {
+                    e.stopPropagation();
+                    setSelectedIds((ids) =>
+                      e.target.checked ? [...ids, agent.id] : ids.filter((id) => id !== agent.id)
+                    );
                   }}
-                >
-                  <input
-                    type="checkbox"
-                    className="mr-2 accent-blue-500 scale-110"
-                    checked={selectedIds.includes(agent.id)}
-                    onChange={(e) => {
-                      e.stopPropagation();
-                      setSelectedIds((ids) =>
-                        e.target.checked ? [...ids, agent.id] : ids.filter((id) => id !== agent.id)
-                      );
-                    }}
-                    onClick={(e) => e.stopPropagation()}
-                  />
-                </span>
-                <span
-                  style={{
-                    display: 'inline-block',
-                    transition: 'margin-left 0.3s cubic-bezier(0.4,0,0.2,1), color 0.3s',
-                    marginLeft: selectMode ? '8px' : '0px',
-                  }}
-                  className="truncate"
-                >
-                  {agent.name}
-                </span>
-              </li>
-            ))}
-          </ul>
-        )}
+                  onClick={(e) => e.stopPropagation()}
+                />
+              </span>
+              <span
+                style={{
+                  display: 'inline-block',
+                  transition: 'margin-left 0.3s cubic-bezier(0.4,0,0.2,1), color 0.3s',
+                  marginLeft: selectMode ? '8px' : '0px',
+                }}
+                className="truncate"
+              >
+                {agent.name}
+              </span>
+            </li>
+          ))}
+        </ul>
+
         {/* 削除モーダル */}
         {showDeleteModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm animate-fade-in">
