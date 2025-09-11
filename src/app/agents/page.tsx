@@ -32,6 +32,8 @@ export default function AgentsPage() {
   };
   useEffect(() => {
     fetchAgents();
+    const interval = setInterval(fetchAgents, 3000);
+    return () => clearInterval(interval);
   }, []);
 
   const handleDelete = async () => {
