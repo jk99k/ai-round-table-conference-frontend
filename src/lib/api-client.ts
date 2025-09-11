@@ -40,7 +40,7 @@ export async function fetchWithAuth(
 
 export const apiClient = {
   async register(username: string, email: string, password: string): Promise<User> {
-    const res = await fetch(`${API_BASE_URL}/api/users/register`, {
+    const res = await fetch(`${API_BASE_URL}/api/users`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, email, password }),
